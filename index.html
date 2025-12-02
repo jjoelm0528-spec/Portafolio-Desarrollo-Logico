@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio de Desarrollo Lógico - Jonathan Morales </title>
+    
+    <!-- Importación de fuentes: Poppins y la nueva Pixel Art -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Definición de la paleta de colores (Optimizada para Tema Oscuro): */
+        :root {
+            --fondo-oscuro-primario: #121212; /* Fondo muy oscuro, casi negro */
+            --fondo-oscuro-secundario: #1e1e1e; /* Fondo de contenedores y tarjetas */
+            --verde-oscuro: #054e3d; /* Para elementos principales (manteniendo el tono) */
+            --verde-claro: #10b981; /* Para botones y acentos (color de acento principal) */
+            --texto-claro: #e0e0e0; /* Texto principal claro */
+            --gris-medio: #94a3b8; /* Texto secundario/Footer */
+            --blanco: #ffffff;
+            --negro: #000000;
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            line-height: 1.6; 
+            margin: 0; 
+            padding: 0; 
+            background-color: var(--fondo-oscuro-primario); 
+            color: var(--texto-claro); 
+        }
+        
+        .page-background {
+             background-color: var(--fondo-oscuro-primario); 
+             padding-top: 20px;
+        }
+        
+        /* ESTILO PIXEL ART EN EL ENCABEZADO */
+        header { 
+            /* RUTA DEL WALLPAPER PIXEL ART: Asegúrate que esta imagen esté en tu carpeta 'imagenes' */
+            background-image: url('imagenes/header_pixel_art.jpg'), linear-gradient(to top, #000000, #333333); 
+            background-size: cover; 
+            background-position: center center; 
+            background-repeat: no-repeat;
+            background-color: var(--negro); 
+            color: var(--blanco); 
+            padding: 60px 0; 
+            text-align: center; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
+            position: relative; 
+        }
+
+        /* Capa oscura sobre el fondo pixel art para mejorar la legibilidad del texto */
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); 
+            z-index: 1; 
+        }
+
+        header h1 { 
+            margin: 0; 
+            font-family: 'Press Start 2P', cursive; 
+            font-weight: 400; 
+            font-size: 2.5em; 
+            color: var(--blanco); 
+            text-shadow: 4px 4px var(--verde-oscuro); 
+            position: relative; 
+            z-index: 2; 
+        }
+        header p {
+            position: relative; 
+            z-index: 2; 
+            font-size: 1.1em;
+            color: var(--texto-claro);
+            text-shadow: 1px 1px var(--negro);
+        }
+        
+        nav { 
+            background-color: var(--verde-claro); 
+            padding: 10px; 
+            text-align: center; 
+            z-index: 10; 
+            position: sticky; 
+            top: 0; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        nav a { 
+            color: var(--verde-oscuro); 
+            margin: 0 20px; 
+            text-decoration: none; 
+            font-weight: 600; 
+            transition: color 0.3s;
+        }
+        nav a:hover { color: var(--blanco); }
+
+        .container { 
+            width: 90%; 
+            max-width: 1200px; 
+            margin: 20px auto; 
+            padding: 20px; 
+            background-color: var(--fondo-oscuro-secundario); 
+            border-radius: 10px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.5); 
+        }
+
+        /* TABS DE IDIOMA */
+        .lang-selector {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #333;
+            max-width: 1200px; 
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 20px;
+        }
+        .lang-selector button {
+            background: none;
+            border: none;
+            color: var(--gris-medio);
+            padding: 10px 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s, border-bottom 0.3s;
+            outline: none;
+        }
+        .lang-selector button.active {
+            color: var(--verde-claro);
+            border-bottom: 2px solid var(--verde-claro);
+        }
+        .lang-selector button:hover {
+            color: var(--texto-claro);
+        }
+        
+        /* Slot para Foto */
+        .photo-bio-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .photo-slot {
+            width: 150px;
+            height: 150px;
+            background-color: #333;
+            border: 4px solid var(--verde-claro);
+            border-radius: 50%;
+            margin: 0 auto 20px auto; 
+            overflow: hidden;
+            box-shadow: 0 0 0 8px var(--fondo-oscuro-secundario), 0 0 15px rgba(0,0,0,0.5);
+        }
+        .photo-slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Estilo para cada proyecto (Tarjeta) */
+        .project-card { 
+            background: var(--fondo-oscuro-primario); 
+            border: 1px solid #333; 
+            padding: 20px; 
+            margin-bottom: 25px; 
+            border-radius: 8px; 
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .project-card h3 { 
+            color: var(--verde-claro); 
+            border-bottom: 2px solid #333; 
+            padding-bottom: 8px; 
+            font-weight: 600;
+        }
+        .project-card p, .project-card strong {
+            color: var(--texto-claro); 
+        }
+        .project-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4); 
+            background: #252525; 
+        }
+
+        .boton { 
+            display: inline-block; 
+            background: var(--verde-claro); 
+            color: var(--verde-oscuro); 
+            padding: 10px 20px; 
+            margin-top: 10px;
+            text-decoration: none; 
+            border-radius: 5px; 
+            transition: background 0.3s;
+            font-weight: 700;
+        }
+        .boton:hover { 
+            background: #0c9c69; 
+            color: var(--blanco);
+        }
+
+        footer { 
+            background-color: var(--verde-oscuro); 
+            color: var(--gris-medio); 
+            text-align: center; 
+            padding: 15px; 
+            margin-top: 30px; 
+            font-size: 0.9em;
+        }
+        
+        .hidden { display: none; }
+
+        @media (min-width: 768px) {
+            .photo-bio-wrapper {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+            .photo-slot {
+                margin: 0 30px 0 0;
+                flex-shrink: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-background">
+
+        <header>
+            <!-- Título que cambiará con JavaScript (sin emojis) -->
+            <h1 id="main-title">Portafolio de Desarrollo Lógico y Algoritmos</h1>
+            <p id="main-subtitle">Por: Jonathan Morales</p>
+        </header>
+
+        <nav>
+            <!-- Íconos de texto simples para mantener la claridad -->
+            <a href="#about-section-es" id="nav-profile">👤 Perfil</a>
+            <a href="#proyectos-es" id="nav-assignments">📂 Mis Asignaciones</a>
+        </nav>
+
+        <!-- TABS DE IDIOMA - Fuera del container para que se vea siempre -->
+        <div class="lang-selector">
+            <button class="active" onclick="showLang('es', this)">Español</button>
+            <button onclick="showLang('en', this)">English</button>
+        </div>
+        
+        <!-- ============================================== -->
+        <!-- =========== CONTENIDO PRINCIPAL ESPAÑOL =========== -->
+        <!-- ============================================== -->
+        <div id="es-page-content" class="container">
+            
+            <section id="about-section-es">
+                <h2>👤 Acerca de Mí</h2>
+
+                <div class="photo-bio-wrapper">
+                    <div class="photo-slot">
+                        <img src="imagenes\photo_profile.jpg" alt="Foto de Perfil de Jonathan Morales">
+                    </div>
+                    
+                    <div>
+                        <h3>Introducción y Perfil Académico</h3>
+                        <p>¡Hola! Mi nombre es <strong>Jonathan Joel Morales Cruz</strong>. Este portafolio digital ha sido creado como requisito de la asignatura Desarrollo Lógico y Algoritmos y resume mi crecimiento y dedicación en el desarrollo de la lógica de programación y el diseño algorítmico.</p>
+                        
+                        <h3>Autobiografía y Trayectoria</h3>
+                        <p>Nací el 28 de abril de 2007. Recibí mi educación primaria en la Escuela Justo Abel Castillo y continué mi formación secundaria en el Colegio Daniel Octavio Crespo. Actualmente, estoy cursando un pregrado en Ingeniería en Sistemas y Computación en la prestigiosa Universidad Tecnológica de Panamá (UTP), donde estoy construyendo las bases de mi futuro profesional.</p>
+
+                        <h3>Aspiraciones y Metas</h3>
+                        <p>Aspiro a mejorar continuamente mis capacidades y conocimientos en áreas clave de la tecnología, tales como:</p>
+                        <ul>
+                            <li><strong>Ciberseguridad</strong></li>
+                            <li><strong>Programación en Python</strong></li>
+                            <li>Administración de Servidores</li>
+                            <li>Gestión de Bases de Datos (SQL)</li>
+                            <li>Diseño Web</li>
+                            <li><strong>Creación de Recursos Visuales</strong> (Diseño de interfaces, assets y elementos gráficos para aplicaciones)</li>
+                            <li><strong>Diseño de Videojuegos</strong> (Conceptos de jugabilidad, narrativa e implementación de prototipos)</li>
+                            <li>Entre otros.</li>
+                        </ul>
+                        <p>Mi objetivo principal es aplicar estos conocimientos para resolver problemas complejos y contribuir al avance tecnológico.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="proyectos-es">
+                <h2>📂 Asignaciones del Curso</h2>
+                <p>A continuación se presenta un recuento de las asignaciones y evaluaciones realizadas durante el desarrollo del curso, demostrando la aplicación de los conceptos lógicos y tecnológicos fundamentales.</p>
+
+                <!-- 1. INVESTIGACIÓN #1 --><div class="project-card">
+                    <h3>1. Investigación #1: Conceptos Básicos de Programación</h3>
+                    <p><strong>Descripción:</strong> Infografía, mapas y cuadros comparativos acerca de los conceptos básicos e introductorios de la programación.</p>
+                    <p><strong>⭐ Conceptos clave:</strong> Algoritmo, Pseudocódigo, Lenguajes de Programación, Tipos de Datos, Diagramas de Flujo.</p>
+                    <a href="asignaciones/inv_1.pdf" target="_blank" class="boton">🔗 Ver Documento de Entrega</a>
+                </div>
+
+                <!-- 2. EJERCICIO PRÁCTICO #1 --><div class="project-card">
+                    <h3>2. Ejercicio Práctico #1: Introducción a Herramientas</h3>
+                    <p><strong>Descripción:</strong> Introducción al pseudocódigo, diagramas de flujo y primeros programas en lenguaje C.</p>
+                    <p><strong>⭐ Conceptos clave:</strong> Sintaxis básica de C, Herramientas de desarrollo, Conversión de Pseudocódigo a código fuente.</p>
+                    <a href="asignaciones/ejer_1.pdf" target="_blank" class="boton">🔗 Ver Documento de Entrega</a>
+                </div>
+
+                <!-- 3. LABORATORIO PRÁCTICO #1 --><div class="project-card">
+                    <h3>3. Laboratorio Práctico #1: Programación Aplicada</h3>
+                    <p><strong>Descripción:</strong> Aplicación del pseudocódigo, diagramas de flujo y código C en el desarrollo de programas funcionales que requieren lógica de secuencia y decisión.</p>
+                    <p><strong>⭐ Conceptos clave:</strong> Lógica de Condicionales (IF/ELSE), Desarrollo de programas simples, Manejo de errores.</p>
+                    <a href="asignaciones/lab_1.pdf" target="_blank" class="boton">🔗 Ver Documento de Entrega</a>
+                </div>
+
+                <!-- 4. PARCIAL #1 --><div class="project-card">
+                    <h3>4. Parcial #1: Evaluación de Lógica y Codificación</h3>
+                    <p><strong>Descripción:</strong> Prueba de dominio de pseudocódigo, diagramas de flujo y código C. Evaluación de la capacidad de diseño y comprensión de la lógica estructurada.</p>
+                    <p><strong>⭐ Conceptos clave:</strong> Interpretación de lógica, Sintaxis correcta de C y Pseudocódigo, Resolución de problemas básicos.</p>
+                    <a href="asignaciones/parcial_1.pdf" target="_blank" class="boton">🔗 Ver Documento de Entrega</a>
+                </div>
+                
+                <!-- 5. INVESTIGACIÓN #2 --><div class="project-card">
+                    <h3>5. Investigación #2: Nuevas Tecnologías y Redes</h3>
+                    <p><strong>Descripción:</strong> Introducción a Python, virtualización de entornos de desarrollo y esquemas de redes lógicas utilizando Cisco Packet Tracer.</p>
+                    <p><strong>⭐ Conceptos clave:</strong> Python, Virtualización, Diseño de redes (Cisco PT), Lógica de conectividad.</p>
+                    <a href="asignaciones/inv_2.pdf" target="_blank" class="boton">🔗 Ver Documento de Entrega</a>
+                </div>
+
+                <!-- 6. EJERCICIO PRÁCTICO #2 --><div class="project-card">
+                    <h3>6. Ejercicio Práctico #2: Desarrollo de Interfaz con Python</h3>
+                    <p><strong>Descripción:</strong> Confección de interfaces gráficas de usuario (GUI) con la librería Tkinter y programación funcional en Python, aplicando la lógica de programación orientada a eventos.</p>
+                    <p><strong>⭐ Conceptos clave:</strong> Python, Tkinter (GUI), Programación orientada a eventos, Estructuras de datos de Python.</p>
+                    <a href="asignaciones/ejer_2.pdf" target="_blank" class="boton">🔗 Ver Documento de Entrega</a>
+                </div>
+
+                <!-- 7. EJERCICIO PRÁCTICO #3 --><div class="project-card">
+                    <h3>7. Ejercicio Práctico #3: Introducción a Bases de Datos</h3>
+                    <p><strong>Descripción:</strong> Introducción a conceptos de bases de datos, manejo de MySQL para consultas básicas y configuración de servidores locales.</p>
+                    <p><strong>⭐ Conceptos clave:</strong> SQL (Consultas básicas), Modelos de Bases de Datos, Servidores, Lógica de almacenamiento de datos.</p>
+                    <a href="asignaciones/ejer_3.pdf" target="_blank" class="boton">🔗 Ver Documento de Entrega</a>
+                </div>
+
+                <!-- 8. PARCIAL #2 (PROYECTO FINAL) --><div class="project-card">
+                    <h3>8. Parcial #2: Aplicación Multidisciplinaria</h3>
+                    <p><strong>Descripción:</strong> Proyecto de aplicación que integra múltiples disciplinas: confección de esquema de red, sistema POS (Punto de Venta), bases de datos, ciberseguridad y diseño web. La cúspide de la aplicación de la lógica del curso.</p>
+                    <p><strong>⭐ Conceptos clave:</strong> Integración de sistemas, Arquitectura cliente-servidor, Seguridad básica, Desarrollo full-stack.</p>
+                    <a href="asignaciones/parcial_2.pdf" target="_blank" class="boton">🔗 Ver Documento de Entrega</a>
+                </div>
+                
+            </section>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- =========== CONTENIDO PRINCIPAL INGLÉS =========== -->
+        <!-- ============================================== -->
+        <div id="en-page-content" class="container hidden">
+            
+            <section id="about-section-en">
+                <h2>👤 About Me</h2>
+
+                <div class="photo-bio-wrapper">
+                    <div class="photo-slot">
+                        <img src="imagenes\photo_profile.jpg" alt="Jonathan Morales Profile Picture">
+                    </div>
+                    
+                    <div>
+                        <h3>Introduction and Academic Profile</h3>
+                        <p>Hello! My name is <strong>Jonathan Joel Morales Cruz</strong>. This digital portfolio was created as a requirement for the Logic and Algorithm Development course and summarizes my growth and dedication in the development of programming logic and algorithmic design.</p>
+                        
+                        <h3>Autobiography and Trajectory</h3>
+                        <p>I was born on April 28, 2007. I received my primary education at the Justo Abel Castillo School and continued my secondary education at the Daniel Octavio Crespo School. Currently, I am pursuing an undergraduate degree in Systems and Computer Engineering at the prestigious Technological University of Panama (UTP), where I am building the foundations for my professional future.</p>
+
+                        <h3>Aspirations and Goals</h3>
+                        <p>I aspire to continuously improve my skills and knowledge in key technological areas, including:</p>
+                        <ul>
+                            <li><strong>Cybersecurity</strong></li>
+                            <li><strong>Python Programming</strong></li>
+                            <li>Server Administration</li>
+                            <li>Database Management (SQL)</li>
+                            <li>Web Design</li>
+                            <li><strong>Visual Resource Creation</strong> (Designing interfaces, assets, and graphic elements for applications)</li>
+                            <li><strong>Video Game Design</strong> (Gameplay concepts, narrative, and prototype implementation)</li>
+                            <li>And others.</li>
+                        </ul>
+                        <p>My primary goal is to apply this knowledge to solve complex problems and contribute to technological advancement.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="proyectos-en">
+                <h2>📂 Course Assignments</h2>
+                <p>Below is an account of the assignments and evaluations carried out during the course, demonstrating the application of fundamental logical and technological concepts.</p>
+
+                <!-- 1. RESEARCH #1 --><div class="project-card">
+                    <h3>1. Research #1: Basic Programming Concepts</h3>
+                    <p><strong>Description:</strong> Infographics, maps, and comparative charts about the basic and introductory concepts of programming.</p>
+                    <p><strong>⭐ Key Concepts:</strong> Algorithm, Pseudocode, Programming Languages, Data Types, Flowcharts.</p>
+                    <a href="asignaciones/inv_1.pdf" target="_blank" class="boton">🔗 View Submission Document</a>
+                </div>
+
+                <!-- 2. PRACTICAL EXERCISE #1 --><div class="project-card">
+                    <h3>2. Practical Exercise #1: Introduction to Tools</h3>
+                    <p><strong>Description:</strong> Introduction to pseudocode, flowcharts, and first programs in C language.</p>
+                    <p><strong>⭐ Key Concepts:</strong> Basic C Syntax, Development Tools, Conversion from Pseudocode to Source Code.</p>
+                    <a href="asignaciones/ejer_1.pdf" target="_blank" class="boton">🔗 View Submission Document</a>
+                </div>
+
+                <!-- 3. PRACTICAL LAB #1 --><div class="project-card">
+                    <h3>3. Practical Lab #1: Applied Programming</h3>
+                    <p><strong>Description:</strong> Application of pseudocode, flowcharts, and C code in the development of functional programs that require sequence and decision logic.</p>
+                    <p><strong>⭐ Key Concepts:</strong> Conditional Logic (IF/ELSE), Development of simple programs, Error Handling.</p>
+                    <a href="asignaciones/lab_1.pdf" target="_blank" class="boton">🔗 View Submission Document</a>
+                </div>
+
+                <!-- 4. MIDTERM #1 --><div class="project-card">
+                    <h3>4. Midterm #1: Logic and Coding Assessment</h3>
+                    <p><strong>Description:</strong> Proficiency test in pseudocode, flowcharts, and C code. Evaluation of the capacity for design and understanding of structured logic.</p>
+                    <p><strong>⭐ Key Concepts:</strong> Interpretation of logic, Correct C and Pseudocode syntax, Basic problem solving.</p>
+                    <a href="asignaciones/parcial_1.pdf" target="_blank" class="boton">🔗 View Submission Document</a>
+                </div>
+                
+                <!-- 5. RESEARCH #2 --><div class="project-card">
+                    <h3>5. Research #2: New Technologies and Networks</h3>
+                    <p><strong>Description:</strong> Introduction to Python, virtualization of development environments, and logical network diagrams using Cisco Packet Tracer.</p>
+                    <p><strong>⭐ Conceptos clave:</strong> Python, Virtualization, Network Design (Cisco PT), Connectivity logic.</p>
+                    <a href="asignaciones/inv_2.pdf" target="_blank" class="boton">🔗 View Submission Document</a>
+                </div>
+
+                <!-- 6. PRACTICAL EXERCISE #2 --><div class="project-card">
+                    <h3>6. Practical Exercise #2: Interface Development with Python</h3>
+                    <p><strong>Description:</strong> Creation of graphical user interfaces (GUI) with the Tkinter library and functional programming in Python, applying event-driven programming logic.</p>
+                    <p><strong>⭐ Key Concepts:</strong> Python, Tkinter (GUI), Event-driven programming, Python data structures.</p>
+                    <a href="asignaciones/ejer_2.pdf" target="_blank" class="boton">🔗 View Submission Document</a>
+                </div>
+
+                <!-- 7. PRACTICAL EXERCISE #3 --><div class="project-card">
+                    <h3>7. Practical Exercise #3: Introduction to Databases</h3>
+                    <p><strong>Description:</strong> Introduction to database concepts, MySQL handling for basic queries, and local server configuration.</p>
+                    <p><strong>⭐ Key Concepts:</strong> SQL (Basic Queries), Database Models, Servers, Data storage logic.</p>
+                    <a href="asignaciones/ejer_3.pdf" target="_blank" class="boton">🔗 View Submission Document</a>
+                </div>
+
+                <!-- 8. MIDTERM #2 (FINAL PROJECT) --><div class="project-card">
+                    <h3>8. Midterm #2: Multidisciplinary Application</h3>
+                    <p><strong>Descripción:</strong> Application project that integrates multiple disciplines: network scheme creation, POS system (Point of Sale), databases, cybersecurity, and web design. The culmination of the course's logical application.</p>
+                    <p><strong>⭐ Key Concepts:</strong> System integration, Client-server architecture, Basic security, Full-stack development.</p>
+                    <a href="asignaciones/parcial_2.pdf" target="_blank" class="boton">🔗 View Submission Document</a>
+                </div>
+                
+            </section>
+        </div>
+
+        <footer>
+            <p id="footer-text">&copy; 2025 - Portafolio de Desarrollo Lógico. </p>
+        </footer>
+        
+    </div>
+
+    <script>
+        // Función para cambiar el idioma: Muestra/Oculta el bloque completo de contenido.
+        function showLang(lang, button) {
+            const esContent = document.getElementById('es-page-content');
+            const enContent = document.getElementById('en-page-content');
+            const navProfile = document.getElementById('nav-profile');
+            const navAssignments = document.getElementById('nav-assignments');
+            const mainTitle = document.getElementById('main-title');
+            const footerText = document.getElementById('footer-text');
+            const buttons = document.querySelectorAll('.lang-selector button');
+
+            // 1. Alternar Clases de Botones
+            buttons.forEach(btn => btn.classList.remove('active'));
+            if (button) {
+                button.classList.add('active');
+            } else { // Si se llama desde DOMContentLoaded, activamos el español por defecto
+                document.querySelector('.lang-selector button:nth-child(1)').classList.add('active');
+            }
+
+
+            // 2. Alternar Contenido (Esto es lo que cambia el Perfil y Asignaciones)
+            if (lang === 'es') {
+                esContent.classList.remove('hidden');
+                enContent.classList.add('hidden');
+                
+                // 3. Traducir Elementos Fijos
+                mainTitle.textContent = 'Portafolio de Desarrollo Lógico y Algoritmos';
+                footerText.textContent = '© 2025 - Portafolio de Desarrollo Lógico.';
+                
+                // 4. Actualizar Navegación para apuntar a las secciones en español
+                navProfile.textContent = '👤 Perfil';
+                navProfile.href = '#about-section-es'; 
+                navAssignments.textContent = '📂 Mis Asignaciones';
+                navAssignments.href = '#proyectos-es'; 
+                
+            } else if (lang === 'en') {
+                esContent.classList.add('hidden');
+                enContent.classList.remove('hidden');
+                
+                // 3. Traducir Elementos Fijos
+                mainTitle.textContent = 'Logic and Algorithm Development Portfolio';
+                footerText.textContent = '© 2025 - Logic and Algorithm Development Portfolio.';
+
+                // 4. Actualizar Navegación para apuntar a las secciones en inglés
+                navProfile.textContent = '👤 Profile';
+                navProfile.href = '#about-section-en'; 
+                navAssignments.textContent = '📂 My Assignments';
+                navAssignments.href = '#proyectos-en';
+            }
+        }
+        
+        // Inicializa el idioma al cargar la página (muestra español por defecto)
+        document.addEventListener('DOMContentLoaded', () => {
+            showLang('es');
+        });
+    </script>
+</body>
+</html>
